@@ -1,0 +1,17 @@
+pandas
+stix2
+slack_sdk
+yagmail
+watchdog
+colorama
+
+# Optional - for MITRE ATT&CK auto-tagging (if internet is available)
+mitreattack-python
+
+# Optional - STIX to/from MISP
+pymisp
+
+# Optional - JSON schema validation / API parsing
+jsonschema
+requests
+

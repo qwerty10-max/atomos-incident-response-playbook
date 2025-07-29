@@ -1,0 +1,37 @@
+title: Suspicious Process Execution Indicative of Ransomware Activity
+id: 9f4e2d3a-7b8c-4e11-ae92-f3d7b6f52c99
+status: experimental
+description: Detects suspicious processes and behaviors commonly associated with ransomware attacks, such as encryption tools and unusual file renaming.
+author: Atomos
+date: 2025-07-29
+references:
+  - https://attack.mitre.org/techniques/T1486/
+tags:
+  - attack.impact
+  - attack.execution
+  - ransomware
+logsource:
+  product: windows
+  service: sysmon
+detection:
+  selection:
+    EventID: 1  # Process Creation
+    Image|endswith:
+      - '\ransomware.exe'
+      - '\encryptor.exe'
+      - '\wannacry.exe'
+      - '\cerber.exe'
+      - '\tesla.exe'
+    CommandLine|contains:
+      - ".encrypt"
+      - ".locked"
+      - ".crypted"
+      - ".encrypted"
+  condition: selection
+fields:
+  - EventID
+  - Image
+  - CommandLine
+falsepositives:
+  - Legitimate encryption or backup software
+level: critical

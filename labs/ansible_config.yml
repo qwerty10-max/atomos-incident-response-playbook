@@ -1,0 +1,51 @@
+# labs/ansible_config.yml
+
+---
+- name: Setup Incident Response Lab Environment
+  hosts: all
+  become: yes
+  vars:
+    windows_iso_path: "/path/to/windows.iso"  # Update with your Windows ISO path
+    linux_iso_path: "/path/to/ubuntu.iso"     # Update with your Linux ISO path
+
+  tasks:
+
+    - name: Ensure required packages installed (Linux hosts)
+      apt:
+        name:
+          - tcpdump
+          - tshark
+          - yara
+          - git
+          - python3-pip
+        state: present
+      when: ansible_os_family == "Debian"
+
+    - name: Install required python packages (Linux hosts)
+      pip:
+        name:
+          - mitreattack-python
+          - stix2
+          - pandas
+        state: present
+      when: ansible_os_family == "Debian"
+
+    - name: Clone IR Playbook repo (all hosts)
+      git:
+        repo: 'https://github.com/yourusername/incident-response-playbook.git'
+        dest: /opt/incident-response-playbook
+        version: main
+        force: yes
+
+    # Windows hosts can have specific setup here
+    - name: Setup Windows host (placeholder)
+      win_shell: |
+        Write-Host "Windows host preparation script runs here"
+      when: ansible_os_family == "Windows"
+
+    - name: Create test directories on all hosts
+      file:
+        path: /opt/incident-response-playbook/test_dir
+        state: directory
+      when: ansible_os_family != "Windows"
+

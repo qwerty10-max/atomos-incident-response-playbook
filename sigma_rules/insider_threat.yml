@@ -1,0 +1,36 @@
+title: Suspicious PowerShell Activity Indicative of Insider Threat
+id: b1a9d8e2-7f55-4f3c-8b1a-9e0f87a2e7c5
+status: experimental
+description: Detects suspicious PowerShell commands often used in insider threat scenarios such as data exfiltration and lateral movement.
+author: Atomos Ogbodo
+date: 2025-07-29
+references:
+  - https://attack.mitre.org/techniques/T1059/001/
+tags:
+  - attack.persistence
+  - attack.execution
+  - insider-threat
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    EventID: 4104  # PowerShell Script Block Logging
+    ScriptBlockText|contains:
+      - "Invoke-WebRequest"
+      - "Invoke-Expression"
+      - "DownloadFile"
+      - "IEX"
+      - "Start-Process"
+      - "Invoke-Command"
+      - "New-Object System.Net.WebClient"
+      - "Base64"
+      - "EncodedCommand"
+  condition: selection
+fields:
+  - EventID
+  - ScriptBlockText
+falsepositives:
+  - Admins performing legit automation
+  - Security tools running PowerShell scripts
+level: high

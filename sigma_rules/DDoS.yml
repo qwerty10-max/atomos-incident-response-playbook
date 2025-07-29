@@ -1,0 +1,23 @@
+title: Potential DDoS Activity Detected via Network Anomalies
+id: e7b8d4f2-2f95-4bca-b6a4-1f6a74c7b2a9
+status: experimental
+description: Detects signs of potential Distributed Denial of Service (DDoS) attacks, such as high rates of connections or traffic to targeted services.
+author: Atomos
+date: 2025-07-29
+references:
+  - https://attack.mitre.org/techniques/T1498/
+tags:
+  - attack.denial_of_service
+  - network
+logsource:
+  product: firewall
+  service: network
+detection:
+  selection:
+    EventID: 2004  # Example: Firewall log event indicating connection attempts
+    DestPort: 80
+    ConnectionCount: '>1000'  # Hypothetical field for connection bursts
+  condition: selection
+falsepositives:
+  - Legitimate high traffic during peak hours
+level: high
