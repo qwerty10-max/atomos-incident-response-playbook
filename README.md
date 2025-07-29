@@ -154,6 +154,6 @@ MIT License – Open source and community-friendly.
 
 Let’s get this repo live on GitHub and start shipping world-class IR ops 🚨
 
-# Atomos_Atomos_Atomos_IR_Playbook  
+# Atomos_IR_Playbook  
 **Author**: [Atomos](https://github.com/qwerty10-max)  
 **License**: MIT (or other)  
